@@ -36,7 +36,10 @@ impl NewCar for NewOldFashionedCar {
     fn has_bluetooth(&self) -> bool { false }
 }
 
+
 struct WellUsedNewCar;
+
+#[trait_impl]
 impl NewCar for WellUsedNewCar {
     fn get_mileage(&self) -> Option<usize> { Some(100000) }
 }
