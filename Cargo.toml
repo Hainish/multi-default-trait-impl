@@ -1,6 +1,6 @@
 [package]
 name = "multi-default-trait-impl"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["William Budington <bill@eff.org>"]
 edition = "2018"
 description = "Define multiple default implementations for a trait"
