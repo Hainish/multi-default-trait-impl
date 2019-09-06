@@ -16,7 +16,7 @@ values.
 
 First, define a default trait implementation for the trait `Car`:
 
-```
+```rust
 #[default_trait_impl]
 impl Car for NewCar {
     fn get_mileage(&self) -> Option<usize> { Some(6000) }
@@ -28,7 +28,7 @@ impl Car for NewCar {
 
 Next, implement the new default implementation for a type:
 
-```
+```rust
 struct NewOldFashionedCar;
 
 #[trait_impl]
@@ -45,7 +45,7 @@ impl NewCar for WellUsedNewCar {
 This will ensure that our structs use the `NewCar` defaults, without having to change the
 canonical `Car` default implementation:
 
-```
+```rust
 fn main() {
     assert_eq!(NewOldFashionedCar.get_mileage(), Some(6000));
     assert_eq!(NewOldFashionedCar.has_bluetooth(), false);
