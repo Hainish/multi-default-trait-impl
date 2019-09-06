@@ -5,7 +5,7 @@ Define multiple default implementations for a trait.
 [![Latest Version](https://img.shields.io/crates/v/multi-default-trait-impl.svg)](https://crates.io/crates/multi-default-trait-impl)
 [![Rust Documentation](https://img.shields.io/badge/api-rustdoc-blue.svg)](https://docs.rs/multi-default-trait-impl)
 
-This library contains two macros: `default_trait_impl` which defines a default trait
+This library contains two attribute macros: `default_trait_impl` which defines a default trait
 implementation, and `trait_impl` which uses a default trait implementation you've defined.
 
 This is particularly useful in testing, when many of your mocked types will have very similar
