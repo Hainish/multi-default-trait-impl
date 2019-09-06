@@ -2,7 +2,7 @@
 
 Define multiple default implementations for a trait.
 
-[![Latest Version](https://img.shields.io/crates/v/multi-default-trait-impl.svg)](https://crates.io/crates/https-everywhere-lib-core)
+[![Latest Version](https://img.shields.io/crates/v/multi-default-trait-impl.svg)](https://crates.io/crates/multi-default-trait-impl)
 [![Rust Documentation](https://img.shields.io/badge/api-rustdoc-blue.svg)](https://docs.rs/multi-default-trait-impl)
 
 This library contains two macros: `default_trait_impl` which defines a default trait
