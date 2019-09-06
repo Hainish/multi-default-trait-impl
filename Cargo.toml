@@ -1,11 +1,12 @@
 [package]
 name = "multi-default-trait-impl"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["William Budington <bill@eff.org>"]
 edition = "2018"
 description = "Define multiple default implementations for a trait"
 license = "LGPL-2.1-or-later"
 repository = "https://github.com/hainish/multi-default-trait-impl"
+readme = "README.md"
 
 [lib]
 proc-macro = true
