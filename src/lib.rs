@@ -93,24 +93,21 @@ pub fn default_trait_impl(_: TokenStream, input: TokenStream) -> TokenStream {
         _ => return syntax_invalid_error(),
     };
 
-    let methods: Vec<String> = input
+    let items: Vec<String> = input
         .items
         .iter()
-        .map(|method| {
+        .map(|item| {
             return quote! {
-                #method
+                #item
             }
             .to_string();
         })
         .collect();
 
-    DEFAULT_TRAIT_IMPLS.lock().unwrap().insert(
-        pseudotrait,
-        DefaultTraitImpl {
-            trait_name,
-            methods,
-        },
-    );
+    DEFAULT_TRAIT_IMPLS
+        .lock()
+        .unwrap()
+        .insert(pseudotrait, DefaultTraitImpl { trait_name, items });
 
     TokenStream::new()
 }
