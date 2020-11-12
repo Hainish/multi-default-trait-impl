@@ -18,7 +18,7 @@
 //!     fn has_bluetooth(&self) -> bool { true }
 //! }
 //! ```
-//! 
+//!
 //! `NewCar` does not need to be defined beforehand.
 //!
 //! Next, implement the new default implementation for a type:
@@ -54,7 +54,7 @@
 
 extern crate proc_macro;
 use proc_macro::TokenStream;
-use syn::{parse_macro_input, parse_str, Ident, ImplItem, ImplItemMethod, ItemImpl, Type};
+use syn::{parse_macro_input, parse_str, Ident, ImplItem, ItemImpl, Type};
 use quote::quote;
 use std::collections::{HashSet, HashMap};
 use std::sync::Mutex;
@@ -69,7 +69,7 @@ lazy_static!{
 
 struct DefaultTraitImpl {
     pub trait_name: String,
-    pub methods: Vec<String>,
+    pub items: Vec<String>,
 }
 
 #[proc_macro_attribute]
@@ -96,13 +96,13 @@ pub fn default_trait_impl(_: TokenStream, input: TokenStream) -> TokenStream {
         _ => return syntax_invalid_error(),
     };
 
-    let methods: Vec<String> = input.items.iter().map(|method| {
-        return quote! {
-            #method
-        }.to_string()
-    }).collect();
+    let items: Vec<String> = input.items.iter().map(|item| {
+            return quote! {
+                #item
+            }.to_string()
+        }).collect();
 
-    DEFAULT_TRAIT_IMPLS.lock().unwrap().insert(pseudotrait, DefaultTraitImpl { trait_name, methods });
+    DEFAULT_TRAIT_IMPLS.lock().unwrap().insert(pseudotrait, DefaultTraitImpl { trait_name, items });
 
     TokenStream::new()
 }
@@ -140,10 +140,20 @@ pub fn trait_impl(_: TokenStream, input: TokenStream) -> TokenStream {
                 trait_tuple.1.segments[0].ident = Ident::new(&default_impl.trait_name, Span::call_site());
             }
 
-            for default_impl_method in &default_impl.methods {
-                let parsed_default_method: ImplItemMethod = parse_str(default_impl_method).unwrap();
-                if !methods.contains(&parsed_default_method.sig.ident.to_string()) {
-                    input.items.push(ImplItem::Method(parsed_default_method));
+            for default_impl_item in &default_impl.items {
+                let parsed_result: ImplItem = parse_str(default_impl_item).unwrap();
+                match parsed_result{
+                    ImplItem::Method(_method) if !methods.contains(&_method.sig.ident.to_string()) =>{
+                        input.items.push(ImplItem::Method(_method));
+                    }
+                    associated @ ImplItem::Type(_) | associated @ ImplItem::Const(_) => {
+                        input.items.push(associated);
+                    }
+                    ImplItem::Macro(_) => {return quote! {
+                        compile_error!("macros invocation within default impl blocks are not supported");
+                    }.into();
+                    }
+                    _ => ()
                 }
             }
         },
